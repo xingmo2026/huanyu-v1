@@ -26,7 +26,7 @@
 body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
 /* ========================================================= */
-/* ⏳ Minecraft 风格加载动画 */
+/* ⏳ 高级 3D 像素风加载动画 */
 /* ========================================================= */
 #loader {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -36,25 +36,36 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 }
 #loader.hide { opacity: 0; pointer-events: none; }
 
-/* 🌟 替换为真实的像素草方块图片 */
-.mc-icon {
-  width: 80px; height: 80px;
-  image-rendering: pixelated; /* 强制浏览器使用像素化渲染，保证高清不模糊 */
-  animation: bounce 1s infinite alternate ease-in-out;
-  border-radius: 12px; /* 给图片加一点圆角更好看 */
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+/* 用纯 CSS 画一个会旋转的 3D 草方块，永不图裂 */
+.cube {
+  width: 60px; height: 60px;
+  background-color: #8b5a2b; /* 泥土颜色 */
+  position: relative;
+  animation: rotateCube 3s infinite linear;
+  transform-style: preserve-3d;
 }
-@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-15px); } }
+.cube::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 30%;
+  background-color: #55aa00; border-bottom: 4px solid #2d5e00;
+}
+.cube::after {
+  content: ''; position: absolute; width: 100%; height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+}
+@keyframes rotateCube {
+  0% { transform: rotateX(-20deg) rotateY(0deg); }
+  100% { transform: rotateX(-20deg) rotateY(360deg); }
+}
 
-.load-text { margin-top: 30px; font-size: 18px; color: #fff; text-shadow: 2px 2px 0 #3f3f3f; letter-spacing: 2px; }
-.progress-bar { width: 300px; height: 12px; background-color: #222; border: 2px solid #555; margin-top: 15px; position: relative; }
-.progress-fill { height: 100%; width: 0%; background-color: #55ff55; box-shadow: inset -2px -2px 0 #2d8a2d; transition: width 0.1s; }
+.load-text { margin-top: 30px; font-size: 16px; color: #fff; text-shadow: 2px 2px 0 #3f3f3f; letter-spacing: 2px; }
+.progress-bar { width: 260px; height: 10px; background-color: #222; border: 1px solid #555; margin-top: 15px; position: relative; border-radius: 5px; overflow: hidden;}
+.progress-fill { height: 100%; width: 0%; background-color: #55ff55; transition: width 0.1s; }
 
 /* ========================================================= */
 /* 🖥️ 网站主体内容 */
 /* ========================================================= */
 #main-content {
-  opacity: 0; transition: opacity 0.5s ease; min-height: 100vh;
+  opacity: 0; transition: opacity 0.6s ease; min-height: 100vh;
   display: flex; flex-direction: column;
 }
 #main-content.show { opacity: 1; }
@@ -63,20 +74,18 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .nav-brand { font-size: 20px; font-weight: bold; color: #fff; }
 .nav-brand span { color: var(--mc-green); }
 
-.hero { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px 20px; }
-.hero h1 { font-size: 42px; color: #fff; margin-bottom: 10px; text-shadow: 3px 3px 0 #000; }
-.hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 20px; }
-
-.server-icon { width: 64px; height: 64px; border-radius: 8px; border: 2px solid var(--border); margin-bottom: 15px; image-rendering: pixelated; background: #333;}
+.hero { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 50px 20px; background: radial-gradient(circle at center, rgba(85, 255, 85, 0.05) 0%, transparent 60%);}
+.hero h1 { font-size: 44px; color: #fff; margin-bottom: 10px; text-shadow: 3px 3px 0 #000; letter-spacing: 2px;}
+.hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 25px; }
 
 .ip-card {
   background: #222; border: 2px solid #444; padding: 12px 25px; border-radius: 4px;
-  display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.2s;
+  display: flex; align-items: center; gap: 20px; cursor: pointer; transition: 0.3s;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5); position: relative;
 }
-.ip-card:hover { border-color: var(--mc-green); background: #2a2a2a; transform: scale(1.02); }
-.ip-text { font-size: 20px; font-family: monospace; color: #fff; font-weight: bold; }
-.copy-btn { background: var(--mc-green); color: #000; padding: 6px 12px; font-size: 14px; border-radius: 3px; font-weight: bold; }
+.ip-card:hover { border-color: var(--mc-green); background: #2a2a2a; transform: scale(1.03); box-shadow: 0 8px 25px rgba(85,255,85,0.2);}
+.ip-text { font-size: 20px; font-family: monospace; color: #fff; font-weight: bold; letter-spacing: 1px;}
+.copy-btn { background: var(--mc-green); color: #000; padding: 6px 14px; font-size: 14px; border-radius: 3px; font-weight: bold; }
 .copy-tip { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: var(--mc-green); color: #000; padding: 4px 8px; font-size: 12px; border-radius: 3px; opacity: 0; transition: 0.3s; }
 .copy-tip.show { opacity: 1; top: -35px; }
 
@@ -84,10 +93,11 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .panel {
   background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px;
   max-width: 900px; width: 95%; margin: 20px auto 40px; padding: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-.panel-title { font-size: 22px; color: #fff; margin-bottom: 20px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 15px;}
+.panel-title { font-size: 22px; color: #fff; margin-bottom: 25px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 15px; letter-spacing: 1px;}
 
-/* 🌟 动态图片卡片 (30秒刷新) */
+/* 🌟 动态图片卡片 */
 .motd-img-container {
   text-align: center;
   margin: 0 auto 20px auto;
@@ -112,7 +122,7 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .status-label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
 .status-value { font-size: 16px; font-family: monospace; font-weight: bold; word-break: break-all;}
 
-.val-online { color: var(--mc-green); }
+.val-online { color: var(--mc-green); text-shadow: 0 0 8px rgba(85,255,85,0.5);}
 .val-offline { color: var(--mc-red); }
 .val-players { color: var(--mc-gold); }
 .val-version { color: var(--mc-blue); }
@@ -124,8 +134,9 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 
 /* 更多信息网格 */
 .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-.info-card { background: #151515; padding: 20px; border-radius: 8px; border: 1px solid #222; }
-.info-card h3 { color: var(--mc-green); font-size: 18px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;}
+.info-card { background: #151515; padding: 20px; border-radius: 8px; border: 1px solid #222; transition: 0.3s;}
+.info-card:hover { border-color: #444; background: #1a1a1a;}
+.info-card h3 { color: var(--mc-green); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
 .info-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6;}
 .info-card ul { list-style: none; color: var(--text-muted); font-size: 14px; }
 .info-card ul li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;}
@@ -134,7 +145,7 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 /* 下载中心 */
 .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
 .dl-card { background: #151515; border: 1px solid #222; border-radius: 6px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: 0.3s; text-decoration: none; }
-.dl-card:hover { border-color: var(--mc-green); background: #1a1a1a; transform: translateY(-3px); }
+.dl-card:hover { border-color: var(--mc-green); background: #1a1a1a; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
 .dl-icon { font-size: 40px; margin-bottom: 10px; }
 .dl-name { color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
 .dl-desc { color: var(--text-muted); font-size: 12px; margin-bottom: 15px; line-height: 1.4; text-align: center;}
@@ -181,8 +192,8 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 </head>
 <body><!-- 加载动画 -->
 <div id="loader">
-  <!-- 🌟 换成了你提供的草方块图片地址 -->
-  <img src="https://gitee.com/xingmo2026/img/raw/master/mc_grass_block.png" class="mc-icon" alt="Loading...">
+  <!-- 纯 CSS 绘制的 3D 草方块 -->
+  <div class="cube"></div>
   <div class="load-text">正在加载世界...</div>
   <div class="progress-bar">
     <div class="progress-fill" id="progress-fill"></div>
@@ -247,26 +258,30 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </section>
 
-  <!-- 更多信息面板 -->
+  <!-- 🌟 全面优化的服务器资讯面板 -->
   <section class="panel">
     <div class="panel-title">💡 服务器资讯与规则</div>
     <div class="info-grid">
       <div class="info-card">
-        <h3>✨ 核心特色</h3>
-        <p>幻域服务器主打原版纯净生存，支持 Java 与基岩版跨平台互通。拥有强大的防作弊系统与高性能服务端，拒绝卡顿，为你提供最原汁原味的 Minecraft 联机体验。</p>
+        <h3>✨ 幻域核心特色</h3>
+        <p>幻域服务器是一个充满活力的纯净生存社区。我们完美支持 <b>Java 版 1.21 与 基岩版 1.26+</b> 跨平台无缝互通，无论你用什么设备都能和朋友一起联机。</p>
+        <br>
+        <p>搭载顶级防作弊系统与 Paper 高性能核心，拒绝卡顿与不公，为你提供最原汁原味、纯粹友好的 Minecraft 冒险体验。</p>
       </div>
+      
       <div class="info-card">
-        <h3>📜 游戏规则</h3>
+        <h3>📜 玩家生存守则</h3>
         <ul>
-          <li>严禁使用任何外挂、矿透或影响平衡的辅助模组。</li>
-          <li>禁止恶意破坏他人建筑、偷窃物品。</li>
-          <li>保持文明交流，禁止在公屏辱骂或刷屏。</li>
+          <li><b>公平竞技：</b> 严禁使用任何外挂、矿透、飞行或影响平衡的辅助模组，违者直接封禁。</li>
+          <li><b>友好互助：</b> 禁止恶意破坏他人建筑、偷窃物品，共建和谐社区。</li>
+          <li><b>文明交流：</b> 保持公屏友善，严禁辱骂、引战或恶意刷屏。</li>
         </ul>
       </div>
+      
       <div class="info-card">
-        <h3>💬 玩家交流群</h3>
-        <p style="margin-bottom: 10px;">点击下方按钮，直接打开手机 QQ 申请加入官方群（如果无法拉起请手动搜索群号：1124545075）。</p>
-        <button onclick="joinQQGroup()" class="dl-btn" style="background: var(--mc-blue); color: #000; border: none; cursor: pointer; width: 100%; padding: 10px; font-weight: bold; font-size: 14px; border-radius: 4px;">一键加入官方 QQ 群</button>
+        <h3>💬 官方玩家交流群</h3>
+        <p style="margin-bottom: 10px;">遇到问题需要反馈？想找小伙伴一起打怪建家？点击下方按钮，直接拉起手机 QQ 申请加入官方群聊！</p>
+        <button onclick="joinQQGroup()" class="dl-btn" style="background: var(--mc-blue); color: #000; border: none; cursor: pointer; width: 100%; padding: 10px; font-weight: bold; font-size: 14px; border-radius: 4px; transition: 0.2s;">🐧 一键加入官方 QQ 群</button>
       </div>
     </div>
   </section>
@@ -352,19 +367,22 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 </div>
 
 <script>
-// --- 加载动画逻辑 ---
+// --- 1. 安全加载动画逻辑 (带 3 秒兜底强制进入) ---
 let progress = 0;
 const fill = document.getElementById('progress-fill');
 const loader = document.getElementById('loader');
 const mainContent = document.getElementById('main-content');
-let isLoaded = false; // 防止重复执行
+let isLoaded = false;
 
 function finishLoading() {
   if (isLoaded) return;
   isLoaded = true;
+  
   loader.classList.add('hide');
   mainContent.classList.add('show');
   setTimeout(() => loader.remove(), 500);
+  
+  // 进入后请求数据
   fetchServerStatus();
   startImageRefresh();
 }
@@ -379,7 +397,7 @@ const loadInterval = setInterval(() => {
   fill.style.width = progress + '%';
 }, 200);
 
-// 🛡️ 安全兜底：如果因为网络卡住过了 3 秒还没加载完，强制进入网页
+// 🛡️ 兜底机制：就算网络卡死，3秒后也强制进入网页
 setTimeout(() => {
   if (!isLoaded) {
     clearInterval(loadInterval);
@@ -387,7 +405,8 @@ setTimeout(() => {
   }
 }, 3000);
 
-// --- 30秒实时图片刷新 ---
+
+// --- 2. 30秒实时图片刷新 ---
 function startImageRefresh() {
   const imgElement = document.getElementById('motd-dynamic-img');
   const baseUrl = "https://motd.txssb.cn/api/app_img?ip=hmfree.tooo.top&port=20063&dark=true&lang=zh-CN";
@@ -396,7 +415,7 @@ function startImageRefresh() {
   }, 30000); 
 }
 
-// --- 一键拉起 QQ 加群 ---
+// --- 3. 一键拉起 QQ 加群 ---
 function joinQQGroup() {
   const qqUrl = "https://qun.qq.com/universal-share/share?ac=1&authKey=pwQ6F8blPJz6lnijOEhRQIvjHcmJrGEnn8lvYacLdZ4YMYa84qzJ9RspB%2F2V1TK9&busi_data=eyJncm91cENvZGUiOiIxMTI0NTQ1MDc1IiwidG9rZW4iOiJJSmJIYVlUcjE2RjczTVJ1LzhWcjZKdGJHc0FNZ051MjU1WHFqTmZkSEUxYkd4bEFQbEhxaXdsV3ZKNjJyTDNYIiwidWluIjoiMzg1MTMzNzY2NCJ9&data=X_YOCX6yDHdNHIi8XqzQBJpwUd8_LkRIlJdpIs0or5ZnjeOQml0lULew4KjRQiM3sPdKD2K29pgGohb4AkWbZg&svctype=4&tempid=h5_group_info";
   
@@ -413,7 +432,7 @@ function joinQQGroup() {
   }
 }
 
-// --- 投诉邮件一键唤起 ---
+// --- 4. 投诉邮件一键唤起 ---
 function submitFeedback() {
   const email = "2736656336@qq.com";
   const subject = encodeURIComponent("【幻域服务器】投诉与反馈");
@@ -421,7 +440,7 @@ function submitFeedback() {
   window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
-// --- 复制 IP ---
+// --- 5. 复制 IP ---
 function copyIP() {
   const ip = document.getElementById('server-ip').innerText;
   navigator.clipboard.writeText(ip).then(() => {
@@ -431,7 +450,7 @@ function copyIP() {
   }).catch(err => alert('复制失败，请手动复制：' + ip));
 }
 
-// --- 管理员控制台验证 ---
+// --- 6. 管理员控制台验证 ---
 function showAdminLogin() {
   document.getElementById('pwd-modal').style.display = 'flex';
   document.getElementById('admin-pwd').value = '';
@@ -453,7 +472,7 @@ function verifyAdmin() {
   }
 }
 
-// --- 查询全量数据 ---
+// --- 7. 查询全量数据 ---
 const SERVER_IP = "xingmo.92mc.top"; 
 
 async function fetchServerStatus() {
@@ -523,4 +542,4 @@ async function fetchServerStatus() {
 </script>
 
 </body>
-  </html>
+</html>
