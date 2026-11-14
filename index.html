@@ -146,22 +146,16 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .dl-btn { background: #333; color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 13px; transition: 0.2s; }
 .dl-card:hover .dl-btn { background: var(--mc-green); color: #000; font-weight: bold;}
 
-/* 🌟 底部操作栏 (包含加入QQ群和控制台) */
+/* 🌟 底部操作栏 */
 footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); background: #0a0a0a; margin-top: auto;}
-.footer-actions {
-  display: flex;
-  justify-content: center; /* 居中排列 */
-  gap: 15px;
-  margin-top: 15px;
-  flex-wrap: wrap;
-}
+.footer-actions { display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap;}
 .action-btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 20px; border-radius: 4px; font-size: 13px; cursor: pointer; transition: 0.3s; text-decoration: none; border: none;}
 .btn-qq { background: #12b7f5; color: #fff; border: 1px solid #12b7f5; font-weight: bold;}
 .btn-qq:hover { background: #0099d8; border-color: #0099d8; transform: scale(1.05);}
 .btn-admin { background: #333; color: #fff; border: 1px solid #555; }
 .btn-admin:hover { background: var(--mc-red); border-color: var(--mc-red); color: #fff; transform: scale(1.05);}
 
-/* 悬浮的投诉与反馈按钮 */
+/* 悬浮投诉按钮 */
 .feedback-btn {
   position: fixed; bottom: 30px; right: 30px; z-index: 1000;
   background: var(--card-bg); border: 1px solid var(--border); color: #fff;
@@ -190,9 +184,7 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 }
 </style>
 </head>
-<body>
-
-<!-- 加载动画 -->
+<body><!-- 加载动画 -->
 <div id="loader">
   <div class="mc-block"></div>
   <div class="load-text">正在加载世界...</div>
@@ -275,16 +267,15 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
           <li>保持文明交流，禁止在公屏辱骂或刷屏。</li>
         </ul>
       </div>
-      <!-- QQ群卡片 -->
       <div class="info-card">
         <h3>💬 玩家交流群</h3>
-        <p style="margin-bottom: 10px;">点击下方按钮，直接打开手机 QQ 申请加入官方群（如果无法拉起请手动搜索群号：1103399514）。</p>
+        <p style="margin-bottom: 10px;">点击下方按钮，直接打开手机 QQ 申请加入官方群（如果无法拉起请手动搜索群号：1124545075）。</p>
         <button onclick="joinQQGroup()" class="dl-btn" style="background: var(--mc-blue); color: #000; border: none; cursor: pointer; width: 100%; padding: 10px; font-weight: bold; font-size: 14px; border-radius: 4px;">一键加入官方 QQ 群</button>
       </div>
     </div>
   </section>
 
-  <!-- 下载中心 (手机+电脑) -->
+  <!-- 下载中心 -->
   <section class="panel">
     <div class="panel-title">📥 游戏与启动器下载</div>
     <div class="dl-grid">
@@ -339,7 +330,7 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </section>
 
-  <!-- 🌟 底部版权与操作区 -->
+  <!-- 底部操作栏 -->
   <footer>
     © 2026 幻域服务器. All Rights Reserved.
     <div class="footer-actions">
@@ -396,19 +387,21 @@ function startImageRefresh() {
   }, 30000); 
 }
 
-// --- 🌟 一键拉起 QQ 加群逻辑 ---
+// --- 🌟 一键拉起 QQ 加群逻辑 (已替换最新链接) ---
 function joinQQGroup() {
-  const qqUrl = "https://qun.qq.com/universal-share/share?ac=1&authKey=ZEBg%2BEoGlFcZ2fezbWdPRcenwy%2FD1BkdCcqnMPnA%2B%2FE004RQ8P1VXhw5a18iOkrz&busi_data=eyJncm91cENvZGUiOiIxMTAzMzk5NTE0IiwidG9rZW4iOiJ3K3hxU3dOTFZWNmtTNXg4Si9JQ3lZMGY4N3VVdDlmb1NtMjZDK0J4SFlnbUNmWXVPSld2V1V4a1R2UGpLbGFSIiwidWluIjoiMjM1MTA3ODc3NyJ9&data=gaSCBho8R8CfTgvRSFHDVi9G7yCbh3-zfAuoIrk8vVGiXehx9UWJQWnsV8mevX6S4RdZ0yfQr7s--JvJ9d50ViW768SrmflprFsosXuvJhQ&svctype=5&tempid=h5_group_info";
+  // 你刚刚提供的新链接
+  const qqUrl = "https://qun.qq.com/universal-share/share?ac=1&authKey=pwQ6F8blPJz6lnijOEhRQIvjHcmJrGEnn8lvYacLdZ4YMYa84qzJ9RspB%2F2V1TK9&busi_data=eyJncm91cENvZGUiOiIxMTI0NTQ1MDc1IiwidG9rZW4iOiJJSmJIYVlUcjE2RjczTVJ1LzhWcjZKdGJHc0FNZ051MjU1WHFqTmZkSEUxYkd4bEFQbEhxaXdsV3ZKNjJyTDNYIiwidWluIjoiMzg1MTMzNzY2NCJ9&data=X_YOCX6yDHdNHIi8XqzQBJpwUd8_LkRIlJdpIs0or5ZnjeOQml0lULew4KjRQiM3sPdKD2K29pgGohb4AkWbZg&svctype=4&tempid=h5_group_info";
   
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   if (isMobile) {
     window.open(qqUrl, '_blank');
   } else {
-    navigator.clipboard.writeText("1103399514").then(() => {
-      alert("已为您复制群号：1103399514。\n请打开电脑版 QQ，搜索群号申请加入！");
+    // 电脑端提示搜索新群号
+    navigator.clipboard.writeText("1124545075").then(() => {
+      alert("已为您复制群号：1124545075。\n请打开电脑版 QQ，搜索群号申请加入！");
     }).catch(err => {
-      alert("群号：1103399514。\n请手动在 QQ 搜索该群号加入！");
+      alert("群号：1124545075。\n请手动在 QQ 搜索该群号加入！");
     });
   }
 }
@@ -523,4 +516,4 @@ async function fetchServerStatus() {
 </script>
 
 </body>
-</html>
+  </html>
