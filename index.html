@@ -36,10 +36,9 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 }
 #loader.hide { opacity: 0; pointer-events: none; }
 
-/* 用纯 CSS 画一个会旋转的 3D 草方块，永不图裂 */
 .cube {
   width: 60px; height: 60px;
-  background-color: #8b5a2b; /* 泥土颜色 */
+  background-color: #8b5a2b;
   position: relative;
   animation: rotateCube 3s infinite linear;
   transform-style: preserve-3d;
@@ -97,38 +96,24 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 }
 .panel-title { font-size: 22px; color: #fff; margin-bottom: 25px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 15px; letter-spacing: 1px;}
 
-/* 🌟 动态图片卡片 */
+/* 动态图片卡片 */
 .motd-img-container {
-  text-align: center;
-  margin: 0 auto 20px auto;
-  max-width: 100%;
-  overflow: hidden;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: #111;
-  padding: 10px;
+  text-align: center; margin: 0 auto 20px auto; max-width: 100%; overflow: hidden;
+  border-radius: 8px; border: 1px solid var(--border); background: #111; padding: 10px;
 }
-.motd-img-container img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 4px;
-}
+.motd-img-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 4px; }
 
 /* 服务器数据面板 */
 .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
 .status-item { background: #151515; padding: 15px; border-radius: 6px; border: 1px solid #222; display: flex; flex-direction: column; }
 .status-label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
 .status-value { font-size: 16px; font-family: monospace; font-weight: bold; word-break: break-all;}
-
 .val-online { color: var(--mc-green); text-shadow: 0 0 8px rgba(85,255,85,0.5);}
 .val-offline { color: var(--mc-red); }
 .val-players { color: var(--mc-gold); }
 .val-version { color: var(--mc-blue); }
 .val-software { color: var(--mc-purple); }
 .val-motd { color: #fff; font-size: 14px; font-family: inherit; font-weight: normal; line-height: 1.4; background: #000; padding: 10px; border-radius: 4px; border: 1px dashed #444;}
-
 .player-bar-bg { width: 100%; height: 8px; background: #333; border-radius: 4px; margin-top: 10px; overflow: hidden; }
 .player-bar-fill { height: 100%; background: var(--mc-gold); transition: width 0.5s; }
 
@@ -152,7 +137,7 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .dl-btn { background: #333; color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 13px; transition: 0.2s; }
 .dl-card:hover .dl-btn { background: var(--mc-green); color: #000; font-weight: bold;}
 
-/* 🌟 底部操作栏 */
+/* 底部操作栏 */
 footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); background: #0a0a0a; margin-top: auto;}
 .footer-actions { display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap;}
 .action-btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 20px; border-radius: 4px; font-size: 13px; cursor: pointer; transition: 0.3s; text-decoration: none; border: none;}
@@ -171,15 +156,35 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 }
 .feedback-btn:hover { background: #333; transform: scale(1.05); border-color: var(--mc-gold); }
 
+/* ========================================================= */
+/* 🔐 弹窗通用样式 (密码 & 验证码) */
+/* ========================================================= */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 999999; justify-content: center; align-items: center; backdrop-filter: blur(5px);}
+.modal-box { background: var(--card-bg); border: 2px solid #444; border-radius: 8px; padding: 30px; width: 320px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); position: relative;}
+
 /* 密码弹窗 */
-#pwd-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 999999; justify-content: center; align-items: center; backdrop-filter: blur(5px);}
-.pwd-box { background: var(--card-bg); border: 2px solid #444; border-radius: 8px; padding: 30px; width: 300px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);}
 .pwd-box h3 { color: #fff; margin-bottom: 15px; }
-.pwd-input { width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; margin-bottom: 15px; text-align: center; outline: none;}
+.pwd-input { width: 100%; padding: 12px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; margin-bottom: 15px; text-align: center; outline: none; font-family: monospace; font-size: 16px;}
 .pwd-input:focus { border-color: var(--mc-green); }
 .pwd-btn { background: var(--mc-green); color: #000; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 10px; transition: 0.2s;}
 .pwd-btn:hover { transform: scale(0.98); }
 .pwd-close { background: #444; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
+
+/* 🌟 极验风格滑动拼图 */
+#captcha-modal .modal-box { width: 340px; padding: 0; overflow: hidden; text-align: left;}
+.captcha-header { background: #252525; padding: 12px 16px; font-size: 14px; color: #fff; font-weight: bold; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center;}
+.captcha-header span.close-cap { cursor: pointer; font-size: 18px; color: #888; }
+.captcha-header span.close-cap:hover { color: #fff; }
+.puzzle-container { position: relative; width: 100%; height: 180px; overflow: hidden; background-color: #111; }
+.puzzle-bg-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.puzzle-slice { position: absolute; width: 50px; height: 50px; top: 50px; left: 0; border: 2px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.8); z-index: 2; overflow: hidden; }
+.puzzle-slice img { position: absolute; height: 180px; width: 340px; object-fit: cover; }
+.puzzle-hole { position: absolute; width: 50px; height: 50px; top: 50px; background: rgba(0,0,0,0.6); border: 1px dashed #999; border-radius: 4px; z-index: 1; }
+.slider-wrap { padding: 20px; background: #252525; position: relative; }
+.slider-bar { width: 100%; height: 40px; background: #333; border-radius: 4px; position: relative; overflow: hidden; border: 1px solid #444; }
+.slider-fill { position: absolute; left: 0; top: 0; height: 100%; width: 40px; background: rgba(74,222,128,0.3); }
+.slider-btn { position: absolute; left: 0; top: 0; width: 40px; height: 100%; background: #fff; border-radius: 4px; display: flex; justify-content: center; align-items: center; cursor: grab; color: #000; font-size: 18px; font-weight: bold; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+.slider-text { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: #888; font-size: 13px; pointer-events: none; }
 
 @media (max-width: 600px) {
   .hero h1 { font-size: 32px; }
@@ -192,7 +197,6 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 </head>
 <body><!-- 加载动画 -->
 <div id="loader">
-  <!-- 纯 CSS 绘制的 3D 草方块 -->
   <div class="cube"></div>
   <div class="load-text">正在加载世界...</div>
   <div class="progress-bar">
@@ -258,7 +262,7 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </section>
 
-  <!-- 🌟 全面优化的服务器资讯面板 -->
+  <!-- 服务器资讯 -->
   <section class="panel">
     <div class="panel-title">💡 服务器资讯与规则</div>
     <div class="info-grid">
@@ -268,7 +272,6 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
         <br>
         <p>搭载顶级防作弊系统与 Paper 高性能核心，拒绝卡顿与不公，为你提供最原汁原味、纯粹友好的 Minecraft 冒险体验。</p>
       </div>
-      
       <div class="info-card">
         <h3>📜 玩家生存守则</h3>
         <ul>
@@ -277,7 +280,6 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
           <li><b>文明交流：</b> 保持公屏友善，严禁辱骂、引战或恶意刷屏。</li>
         </ul>
       </div>
-      
       <div class="info-card">
         <h3>💬 官方玩家交流群</h3>
         <p style="margin-bottom: 10px;">遇到问题需要反馈？想找小伙伴一起打怪建家？点击下方按钮，直接拉起手机 QQ 申请加入官方群聊！</p>
@@ -291,52 +293,28 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     <div class="panel-title">📥 游戏与启动器下载</div>
     <div class="dl-grid">
       <a href="https://www.minecraft.net/zh-hans/download" target="_blank" class="dl-card">
-        <div class="dl-icon">🌍</div>
-        <div class="dl-name">Minecraft 官网</div>
-        <div class="dl-desc">正版游戏官方下载入口</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">🌍</div><div class="dl-name">Minecraft 官网</div><div class="dl-desc">正版游戏官方下载入口</div><div class="dl-btn">前往下载</div>
       </a>
       <a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377" target="_blank" class="dl-card">
-        <div class="dl-icon">📦</div>
-        <div class="dl-name">PCL2 启动器</div>
-        <div class="dl-desc">电脑端 · 国内最受欢迎</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">📦</div><div class="dl-name">PCL2 启动器</div><div class="dl-desc">电脑端 · 国内最受欢迎</div><div class="dl-btn">前往下载</div>
       </a>
       <a href="https://hmcl.huangyuhui.net/download" target="_blank" class="dl-card">
-        <div class="dl-icon">🛠️</div>
-        <div class="dl-name">HMCL 启动器</div>
-        <div class="dl-desc">电脑端 · 开源跨平台</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">🛠️</div><div class="dl-name">HMCL 启动器</div><div class="dl-desc">电脑端 · 开源跨平台</div><div class="dl-btn">前往下载</div>
       </a>
       <a href="https://www.bakaxl.com/" target="_blank" class="dl-card">
-        <div class="dl-icon">🎮</div>
-        <div class="dl-name">BakaXL 启动器</div>
-        <div class="dl-desc">电脑端 · UI精美，适合新手</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">🎮</div><div class="dl-name">BakaXL 启动器</div><div class="dl-desc">电脑端 · UI精美，适合新手</div><div class="dl-btn">前往下载</div>
       </a>
       <a href="https://github.com/FCL-Team/FoldCraftLauncher/releases" target="_blank" class="dl-card">
-        <div class="dl-icon">📱</div>
-        <div class="dl-name">FCL 启动器</div>
-        <div class="dl-desc">手机端 · 专为安卓优化</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">📱</div><div class="dl-name">FCL 启动器</div><div class="dl-desc">手机端 · 专为安卓优化</div><div class="dl-btn">前往下载</div>
       </a>
       <a href="https://github.com/PojavLauncherTeam/PojavLauncher/releases" target="_blank" class="dl-card">
-        <div class="dl-icon">🤖</div>
-        <div class="dl-name">PojavLauncher</div>
-        <div class="dl-desc">手机端 · 经典 Java 模拟器</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">🤖</div><div class="dl-name">PojavLauncher</div><div class="dl-desc">手机端 · 经典 Java 模拟器</div><div class="dl-btn">前往下载</div>
       </a>
       <a href="https://modrinth.com/app" target="_blank" class="dl-card">
-        <div class="dl-icon">✨</div>
-        <div class="dl-name">Modrinth App</div>
-        <div class="dl-desc">跨平台 · 全球爆火的开源启动器</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">✨</div><div class="dl-name">Modrinth App</div><div class="dl-desc">跨平台 · 全球爆火的开源启动器</div><div class="dl-btn">前往下载</div>
       </a>
       <a href="https://www.curseforge.com/download/app" target="_blank" class="dl-card">
-        <div class="dl-icon">🔥</div>
-        <div class="dl-name">CurseForge</div>
-        <div class="dl-desc">跨平台 · 海量整合包与模组</div>
-        <div class="dl-btn">前往下载</div>
+        <div class="dl-icon">🔥</div><div class="dl-name">CurseForge</div><div class="dl-desc">跨平台 · 海量整合包与模组</div><div class="dl-btn">前往下载</div>
       </a>
     </div>
   </section>
@@ -352,22 +330,51 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 </div>
 
 <!-- 悬浮投诉按钮 -->
-<button class="feedback-btn" onclick="submitFeedback()">
-  ✉️ 投诉与反馈
-</button>
+<button class="feedback-btn" onclick="submitFeedback()">✉️ 投诉与反馈</button>
 
-<!-- 管理员密码弹窗 -->
-<div id="pwd-modal">
-  <div class="pwd-box">
+<!-- 🔐 1. 密码验证弹窗 -->
+<div id="pwd-modal" class="modal-overlay">
+  <div class="modal-box pwd-box">
     <h3>管理员身份验证</h3>
     <input type="password" class="pwd-input" id="admin-pwd" placeholder="请输入控制台密码">
-    <button class="pwd-btn" onclick="verifyAdmin()">进入控制台</button>
-    <button class="pwd-close" onclick="closeAdminLogin()">取消</button>
+    <button class="pwd-btn" onclick="verifyPassword()">下一步</button>
+    <button class="pwd-close" onclick="closeModal('pwd-modal')">取消</button>
+  </div>
+</div>
+
+<!-- 🧩 2. 极验风格拼图弹窗 -->
+<div id="captcha-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="captcha-header">
+      <span>安全验证</span>
+      <span class="close-cap" onclick="closeModal('captcha-modal')">×</span>
+    </div>
+    
+    <div class="puzzle-container">
+      <!-- 使用 unsplash 风景图作为背景 -->
+      <img id="bg-img" src="" class="puzzle-bg-img" crossorigin="anonymous">
+      <!-- 目标空缺位置 -->
+      <div class="puzzle-hole" id="puzzle-hole"></div>
+      <!-- 可拖动的拼图块 -->
+      <div class="puzzle-slice" id="puzzle-slice">
+        <img id="slice-img" src="" crossorigin="anonymous">
+      </div>
+    </div>
+    
+    <div class="slider-wrap">
+      <div class="slider-bar">
+        <div class="slider-fill" id="sl-fill"></div>
+        <div class="slider-btn" id="sl-btn">→</div>
+        <div class="slider-text">拖动滑块完成拼图</div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-// --- 1. 安全加载动画逻辑 (带 3 秒兜底强制进入) ---
+// =========================================================
+// 1. 页面加载与数据请求逻辑
+// =========================================================
 let progress = 0;
 const fill = document.getElementById('progress-fill');
 const loader = document.getElementById('loader');
@@ -377,12 +384,9 @@ let isLoaded = false;
 function finishLoading() {
   if (isLoaded) return;
   isLoaded = true;
-  
   loader.classList.add('hide');
   mainContent.classList.add('show');
   setTimeout(() => loader.remove(), 500);
-  
-  // 进入后请求数据
   fetchServerStatus();
   startImageRefresh();
 }
@@ -397,16 +401,10 @@ const loadInterval = setInterval(() => {
   fill.style.width = progress + '%';
 }, 200);
 
-// 🛡️ 兜底机制：就算网络卡死，3秒后也强制进入网页
 setTimeout(() => {
-  if (!isLoaded) {
-    clearInterval(loadInterval);
-    finishLoading();
-  }
+  if (!isLoaded) { clearInterval(loadInterval); finishLoading(); }
 }, 3000);
 
-
-// --- 2. 30秒实时图片刷新 ---
 function startImageRefresh() {
   const imgElement = document.getElementById('motd-dynamic-img');
   const baseUrl = "https://motd.txssb.cn/api/app_img?ip=hmfree.tooo.top&port=20063&dark=true&lang=zh-CN";
@@ -415,71 +413,179 @@ function startImageRefresh() {
   }, 30000); 
 }
 
-// --- 3. 一键拉起 QQ 加群 ---
-function joinQQGroup() {
-  const qqUrl = "https://qun.qq.com/universal-share/share?ac=1&authKey=pwQ6F8blPJz6lnijOEhRQIvjHcmJrGEnn8lvYacLdZ4YMYa84qzJ9RspB%2F2V1TK9&busi_data=eyJncm91cENvZGUiOiIxMTI0NTQ1MDc1IiwidG9rZW4iOiJJSmJIYVlUcjE2RjczTVJ1LzhWcjZKdGJHc0FNZ051MjU1WHFqTmZkSEUxYkd4bEFQbEhxaXdsV3ZKNjJyTDNYIiwidWluIjoiMzg1MTMzNzY2NCJ9&data=X_YOCX6yDHdNHIi8XqzQBJpwUd8_LkRIlJdpIs0or5ZnjeOQml0lULew4KjRQiM3sPdKD2K29pgGohb4AkWbZg&svctype=4&tempid=h5_group_info";
-  
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-  if (isMobile) {
-    window.open(qqUrl, '_blank');
-  } else {
-    navigator.clipboard.writeText("1124545075").then(() => {
-      alert("已为您复制群号：1124545075。\n请打开电脑版 QQ，搜索群号申请加入！");
-    }).catch(err => {
-      alert("群号：1124545075。\n请手动在 QQ 搜索该群号加入！");
-    });
-  }
+// =========================================================
+// 2. 弹窗与验证逻辑
+// =========================================================
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
 }
 
-// --- 4. 投诉邮件一键唤起 ---
-function submitFeedback() {
-  const email = "2736656336@qq.com";
-  const subject = encodeURIComponent("【幻域服务器】投诉与反馈");
-  const body = encodeURIComponent("请在此处描述您遇到的问题或投诉内容：\n\n\n\n—— 来自幻域服务器官网");
-  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-}
-
-// --- 5. 复制 IP ---
-function copyIP() {
-  const ip = document.getElementById('server-ip').innerText;
-  navigator.clipboard.writeText(ip).then(() => {
-    const tip = document.getElementById('copy-tip');
-    tip.classList.add('show');
-    setTimeout(() => tip.classList.remove('show'), 1500);
-  }).catch(err => alert('复制失败，请手动复制：' + ip));
-}
-
-// --- 6. 管理员控制台验证 ---
+// 第一步：验证密码
 function showAdminLogin() {
   document.getElementById('pwd-modal').style.display = 'flex';
   document.getElementById('admin-pwd').value = '';
   document.getElementById('admin-pwd').focus();
 }
 
-function closeAdminLogin() {
-  document.getElementById('pwd-modal').style.display = 'none';
-}
-
-function verifyAdmin() {
+function verifyPassword() {
   const pwd = document.getElementById('admin-pwd').value;
   if (pwd === 'huanyu') {
-    window.open('https://panel.yunmc.vip/', '_blank'); 
-    closeAdminLogin();
+    // 密码正确，关闭密码框，打开拼图验证
+    closeModal('pwd-modal');
+    setTimeout(() => {
+      showCaptcha();
+    }, 300);
   } else {
     alert('密码错误，拒绝访问！');
     document.getElementById('admin-pwd').value = '';
   }
 }
 
-// --- 7. 查询全量数据 ---
-const SERVER_IP = "xingmo.92mc.top"; 
+// 第二步：极验拼图初始化
+let targetX = 0;
+const bgImages = [
+  "https://images.unsplash.com/photo-1506744626753-1fa44cf2035b?auto=format&fit=crop&w=340&q=80",
+  "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=340&q=80",
+  "https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=340&q=80"
+];
 
+function showCaptcha() {
+  document.getElementById('captcha-modal').style.display = 'flex';
+  
+  // 随机选择一张背景图
+  const randomImg = bgImages[Math.floor(Math.random() * bgImages.length)];
+  
+  // 随机生成拼图缺口位置 (X坐标，范围在 100 - 200 之间)
+  targetX = Math.floor(Math.random() * 100) + 100;
+  
+  // 设置图片
+  const bgImg = document.getElementById('bg-img');
+  const sliceImg = document.getElementById('slice-img');
+  bgImg.src = randomImg;
+  sliceImg.src = randomImg;
+  
+  // 设置缺口位置
+  const hole = document.getElementById('puzzle-hole');
+  hole.style.left = targetX + 'px';
+  
+  // 设置拼图块背景偏移 (让拼图块显示对应的局部)
+  // 容器高 180，拼图块 50x50，top: 50
+  sliceImg.style.left = '-' + targetX + 'px';
+  sliceImg.style.top = '-50px';
+  
+  // 重置滑块状态
+  const btn = document.getElementById('sl-btn');
+  const fill = document.getElementById('sl-fill');
+  const slice = document.getElementById('puzzle-slice');
+  btn.style.left = '0px';
+  fill.style.width = '40px';
+  slice.style.left = '0px';
+  
+  initSlider();
+}
+
+// 第三步：滑块拖动逻辑
+function initSlider() {
+  const btn = document.getElementById('sl-btn');
+  const fill = document.getElementById('sl-fill');
+  const slice = document.getElementById('puzzle-slice');
+  const bar = btn.parentElement;
+  
+  let isDragging = false;
+  let startX = 0;
+  let maxDrag = bar.clientWidth - btn.clientWidth;
+
+  // 防止重复绑定事件
+  btn.onmousedown = start; 
+  btn.ontouchstart = start;
+
+  function start(e) {
+    e.preventDefault();
+    isDragging = true;
+    startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    document.onmousemove = move;
+    document.ontouchmove = move;
+    document.onmouseup = end;
+    document.ontouchend = end;
+  }
+
+  function move(e) {
+    if (!isDragging) return;
+    let x = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    let delta = x - startX;
+    
+    if (delta > maxDrag) delta = maxDrag;
+    if (delta < 0) delta = 0;
+    
+    btn.style.left = delta + 'px';
+    fill.style.width = (delta + btn.clientWidth) + 'px';
+    
+    // 拼图块跟随移动，比例映射到 340px 的容器上
+    let puzzleDelta = (delta / maxDrag) * 300; 
+    slice.style.left = puzzleDelta + 'px';
+  }
+
+  function end() {
+    if (!isDragging) return;
+    isDragging = false;
+    document.onmousemove = null;
+    document.ontouchmove = null;
+    document.onmouseup = null;
+    document.ontouchend = null;
+    
+    let currentLeft = parseInt(slice.style.left) || 0;
+    
+    // 允许 5px 的误差
+    if (Math.abs(currentLeft - targetX) < 5) {
+      // 验证通过！
+      closeModal('captcha-modal');
+      alert("✅ 安全验证通过，正在进入控制台...");
+      window.open('https://panel.yunmc.vip/', '_blank'); 
+    } else {
+      // 验证失败
+      alert('❌ 拼图位置不正确，请重试！');
+      btn.style.left = '0px';
+      fill.style.width = '40px';
+      slice.style.left = '0px';
+    }
+  }
+}
+
+// =========================================================
+// 3. 其他工具函数
+// =========================================================
+function joinQQGroup() {
+  const qqUrl = "https://qun.qq.com/universal-share/share?ac=1&authKey=pwQ6F8blPJz6lnijOEhRQIvjHcmJrGEnn8lvYacLdZ4YMYa84qzJ9RspB%2F2V1TK9&busi_data=eyJncm91cENvZGUiOiIxMTI0NTQ1MDc1IiwidG9rZW4iOiJJSmJIYVlUcjE2RjczTVJ1LzhWcjZKdGJHc0FNZ051MjU1WHFqTmZkSEUxYkd4bEFQbEhxaXdsV3ZKNjJyTDNYIiwidWluIjoiMzg1MTMzNzY2NCJ9&data=X_YOCX6yDHdNHIi8XqzQBJpwUd8_LkRIlJdpIs0or5ZnjeOQml0lULew4KjRQiM3sPdKD2K29pgGohb4AkWbZg&svctype=4&tempid=h5_group_info";
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.open(qqUrl, '_blank');
+  } else {
+    navigator.clipboard.writeText("1124545075").then(() => {
+      alert("已为您复制群号：1124545075。\n请打开电脑版 QQ，搜索群号申请加入！");
+    });
+  }
+}
+
+function submitFeedback() {
+  const email = "2736656336@qq.com";
+  const subject = encodeURIComponent("【幻域服务器】投诉与反馈");
+  window.location.href = `mailto:${email}?subject=${subject}`;
+}
+
+function copyIP() {
+  const ip = document.getElementById('server-ip').innerText;
+  navigator.clipboard.writeText(ip).then(() => {
+    const tip = document.getElementById('copy-tip');
+    tip.classList.add('show');
+    setTimeout(() => tip.classList.remove('show'), 1500);
+  });
+}
+
+// 获取服务器状态
+const SERVER_IP = "xingmo.92mc.top"; 
 async function fetchServerStatus() {
   const statusEl = document.getElementById('srv-status');
-  const protocolEl = document.getElementById('srv-protocol');
   const versionEl = document.getElementById('srv-version');
-  const softwareEl = document.getElementById('srv-software');
   const playersEl = document.getElementById('srv-players');
   const barEl = document.getElementById('srv-bar');
   const motdEl = document.getElementById('srv-motd');
@@ -488,55 +594,22 @@ async function fetchServerStatus() {
   try {
     const response = await fetch(`https://api.mcstatus.io/v2/status/java/${SERVER_IP}`);
     const data = await response.json();
-
     if (data.online) {
       statusEl.innerText = "● 在线";
       statusEl.className = "status-value val-online";
-      
-      protocolEl.innerText = data.version.protocol || "未知";
-      versionEl.innerText = data.version.name_clean || data.version.name || "未知版本";
-
-      if(data.software && data.software !== "") {
-        softwareEl.innerText = data.software;
-      } else if (data.version.name && data.version.name.toLowerCase().includes("paper")) {
-         softwareEl.innerText = "Paper (推断)";
-      } else {
-        softwareEl.innerText = "Vanilla / 未知";
-      }
-
+      versionEl.innerText = data.version.name_clean || data.version.name;
       playersEl.innerText = `${data.players.online} / ${data.players.max}`;
-      let percent = (data.players.online / data.players.max) * 100;
-      barEl.style.width = `${percent}%`;
-      
-      if(data.motd && data.motd.html) {
-        motdEl.innerHTML = data.motd.html; 
-      } else {
-        motdEl.innerText = data.motd.clean || "该服务器没有设置 MOTD";
-      }
-
-      if (data.icon) {
-        iconEl.src = data.icon;
-        iconEl.style.display = 'block';
-      }
-      
+      barEl.style.width = `${(data.players.online / data.players.max) * 100}%`;
+      motdEl.innerHTML = data.motd.html || data.motd.clean;
+      if (data.icon) { iconEl.src = data.icon; iconEl.style.display = 'block'; }
     } else {
       statusEl.innerText = "● 离线";
       statusEl.className = "status-value val-offline";
-      protocolEl.innerText = "--";
-      versionEl.innerText = "--";
-      softwareEl.innerText = "--";
-      playersEl.innerText = "-- / --";
-      barEl.style.width = `0%`;
-      motdEl.innerText = "服务器当前已关闭或无法连接";
+      motdEl.innerText = "服务器当前已关闭";
     }
   } catch (error) {
     statusEl.innerText = "● 查询失败";
     statusEl.className = "status-value val-offline";
-    protocolEl.innerText = "--";
-    versionEl.innerText = "--";
-    softwareEl.innerText = "API 接口请求异常";
-    playersEl.innerText = "-- / --";
-    motdEl.innerText = "无法获取数据，请刷新重试";
   }
 }
 </script>
