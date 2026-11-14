@@ -88,7 +88,7 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .panel { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; max-width: 900px; width: 95%; margin: 20px auto 40px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
 .panel-title { font-size: 22px; color: #fff; margin-bottom: 25px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 15px; letter-spacing: 1px;}
 
-/* 公告栏 (新增) */
+/* 公告栏 */
 .notice-board { background: rgba(255, 170, 0, 0.1); border: 1px dashed var(--mc-gold); border-radius: 8px; padding: 15px 20px; margin-bottom: 20px; color: var(--mc-gold); font-size: 14px; line-height: 1.6;}
 .notice-board b { color: #fff; }
 
@@ -120,10 +120,6 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .info-card ul li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;}
 .info-card ul li::before { content: "▸"; color: var(--mc-gold); }
 
-/* 赞助名单 (新增) */
-.sponsor-list { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 15px;}
-.sponsor-item { background: #222; padding: 10px 20px; border-radius: 50px; border: 1px solid var(--border); font-weight: bold; color: var(--mc-gold); font-size: 14px;}
-
 /* 下载中心 */
 .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
 .dl-card { background: #151515; border: 1px solid #222; border-radius: 6px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: 0.3s; text-decoration: none; }
@@ -150,16 +146,12 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 /* 弹窗与长按验证 */
 .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 999999; justify-content: center; align-items: center; backdrop-filter: blur(5px);}
 .modal-box { background: var(--card-bg); border: 2px solid #444; border-radius: 8px; padding: 30px; width: 320px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); position: relative;}
-
-/* 密码框 */
 .pwd-box h3 { color: #fff; margin-bottom: 15px; }
 .pwd-input { width: 100%; padding: 12px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; margin-bottom: 15px; text-align: center; outline: none; font-family: monospace; font-size: 16px;}
 .pwd-input:focus { border-color: var(--mc-green); }
 .pwd-btn { background: var(--mc-green); color: #000; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 10px; transition: 0.2s;}
 .pwd-btn:hover { transform: scale(0.98); }
 .pwd-close { background: #444; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
-
-/* 🌟 长按按钮验证 */
 .captcha-box { width: 300px; padding: 20px;}
 .captcha-box h3 { color: #fff; margin-bottom: 20px; font-size: 16px;}
 .hold-btn-wrap { position: relative; width: 100%; height: 50px; background: #111; border: 1px solid #444; border-radius: 8px; overflow: hidden; cursor: pointer; user-select: none; display: flex; justify-content: center; align-items: center;}
@@ -238,9 +230,9 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </section>
 
-  <!-- 资讯与赞助 -->
+  <!-- 资讯与规则 -->
   <section class="panel">
-    <div class="panel-title">💡 服务器资讯与赞助鸣谢</div>
+    <div class="panel-title">💡 服务器资讯与规则</div>
     <div class="info-grid">
       <div class="info-card">
         <h3>✨ 幻域核心特色</h3>
@@ -253,15 +245,6 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
           <li><b>友好互助：</b> 禁止恶意破坏他人建筑、偷窃物品。</li>
           <li><b>文明交流：</b> 严禁辱骂、引战或恶意刷屏。</li>
         </ul>
-      </div>
-      <div class="info-card" style="grid-column: 1 / -1;">
-        <h3>🏆 感谢以下玩家对幻域的支持 (赞助名单)</h3>
-        <div class="sponsor-list">
-          <div class="sponsor-item">👑 徐浩宇</div>
-          <div class="sponsor-item">💎 匿名玩家</div>
-          <div class="sponsor-item">🔥 幻域战神</div>
-          <div class="sponsor-item">🌟 阳光男孩</div>
-        </div>
       </div>
     </div>
   </section>
@@ -331,14 +314,12 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 // 🎮 1. 鼠标点击掉落方块特效
 // =========================================================
 document.addEventListener('mousedown', function(e) {
-  // 只在网页主体显示时触发
   if (!document.getElementById('main-content').classList.contains('show')) return;
   
   const particle = document.createElement('div');
   particle.className = 'click-particle';
   particle.style.left = e.clientX + 'px';
   particle.style.top = e.clientY + 'px';
-  // 随机生成颜色 (草/土/石头)
   const colors = ['#55aa00', '#8b5a2b', '#888888'];
   particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
   
@@ -398,7 +379,6 @@ function verifyPassword() {
   const pwd = document.getElementById('admin-pwd').value;
   if (pwd === 'huanyu') {
     closeModal('pwd-modal');
-    // 密码正确，进入长按验证
     setTimeout(() => {
       document.getElementById('hold-modal').style.display = 'flex';
       resetHold();
@@ -409,7 +389,7 @@ function verifyPassword() {
   }
 }
 
-// 长按逻辑
+// 长按验证逻辑
 let holdTimer;
 let holdStartTime;
 let isHolding = false;
@@ -433,7 +413,6 @@ function startHold(e) {
     if (percent < 100) {
       holdTimer = requestAnimationFrame(updateProgress);
     } else {
-      // 验证成功
       isHolding = false;
       const btn = document.getElementById('hold-btn');
       btn.classList.add('success');
