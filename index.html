@@ -20,6 +20,7 @@
   --mc-red: #ff5555;
   --mc-gold: #ffaa00;
   --mc-blue: #55ffff;
+  --mc-purple: #aa55ff;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Minecraft", "Microsoft YaHei", sans-serif; }
 body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
@@ -92,20 +93,17 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .panel-title { font-size: 22px; color: #fff; margin-bottom: 20px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 15px;}
 
 /* 服务器数据面板 */
-.status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+.status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
 .status-item { background: #151515; padding: 15px; border-radius: 6px; border: 1px solid #222; display: flex; flex-direction: column; }
 .status-label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
-.status-value { font-size: 18px; font-family: monospace; font-weight: bold; word-break: break-all;}
+.status-value { font-size: 16px; font-family: monospace; font-weight: bold; word-break: break-all;}
 
 .val-online { color: var(--mc-green); }
 .val-offline { color: var(--mc-red); }
 .val-players { color: var(--mc-gold); }
 .val-version { color: var(--mc-blue); }
-.val-motd { color: #fff; font-size: 14px; font-family: inherit; font-weight: normal; line-height: 1.4;}
-.val-time { color: #fff; font-size: 16px; }
-
-.player-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.player-head { width: 32px; height: 32px; background: #333; border-radius: 4px; image-rendering: pixelated; }
+.val-software { color: var(--mc-purple); }
+.val-motd { color: #fff; font-size: 14px; font-family: inherit; font-weight: normal; line-height: 1.4; background: #000; padding: 10px; border-radius: 4px; border: 1px dashed #444;}
 
 .player-bar-bg { width: 100%; height: 8px; background: #333; border-radius: 4px; margin-top: 10px; overflow: hidden; }
 .player-bar-fill { height: 100%; background: var(--mc-gold); transition: width 0.5s; }
@@ -161,9 +159,9 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </header>
 
-  <!-- 服务器数据面板 -->
+  <!-- 深度数据面板 -->
   <section class="panel">
-    <div class="panel-title">📊 服务器数据面板</div>
+    <div class="panel-title">📊 服务器深度数据面板</div>
     <div class="status-grid">
       
       <div class="status-item">
@@ -172,18 +170,18 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
       </div>
 
       <div class="status-item">
-        <div class="status-label">服务器时区时间</div>
-        <div class="status-value val-time" id="srv-time">--:--:--</div>
+        <div class="status-label">服务器协议版本号</div>
+        <div class="status-value" id="srv-protocol" style="color: #fff;">--</div>
       </div>
 
       <div class="status-item">
-        <div class="status-label">游戏版本</div>
+        <div class="status-label">游戏版本 (Raw)</div>
         <div class="status-value val-version" id="srv-version">--</div>
       </div>
 
       <div class="status-item">
         <div class="status-label">服务端核心</div>
-        <div class="status-value" id="srv-software">--</div>
+        <div class="status-value val-software" id="srv-software">--</div>
       </div>
 
       <div class="status-item" style="grid-column: span 2;">
@@ -193,50 +191,36 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
       </div>
 
       <div class="status-item" style="grid-column: 1 / -1;">
-        <div class="status-label">服务器公告 (MOTD)</div>
+        <div class="status-label">服务器公告 (MOTD - 原始格式)</div>
+        <!-- 这里会用 API 返回的 MOTD 原始 HTML 渲染 -->
         <div class="status-value val-motd" id="srv-motd">--</div>
       </div>
 
     </div>
   </section>
 
-  <!-- 🌟 下载中心 -->
+  <!-- 下载中心 -->
   <section class="panel">
     <div class="panel-title">📥 游戏与启动器下载</div>
     <div class="dl-grid">
-      
-      <!-- MC官网 -->
       <a href="https://www.minecraft.net/zh-hans/download" target="_blank" class="dl-card">
         <div class="dl-icon">🌍</div>
         <div class="dl-name">Minecraft 官网</div>
         <div class="dl-desc">正版游戏官方下载入口</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
-      <!-- PCL2 -->
       <a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377" target="_blank" class="dl-card">
         <div class="dl-icon">📦</div>
         <div class="dl-name">PCL2 启动器</div>
-        <div class="dl-desc">龙腾猫跃开发，国内最受欢迎</div>
+        <div class="dl-desc">国内最受欢迎的启动器</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
-      <!-- HMCL -->
       <a href="https://hmcl.huangyuhui.net/download" target="_blank" class="dl-card">
         <div class="dl-icon">🛠️</div>
         <div class="dl-name">HMCL 启动器</div>
         <div class="dl-desc">开源跨平台，支持多版本管理</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
-      <!-- BakaXL -->
-      <a href="https://www.bakaxl.com/" target="_blank" class="dl-card">
-        <div class="dl-icon">🎮</div>
-        <div class="dl-name">BakaXL 启动器</div>
-        <div class="dl-desc">UI精美，适合新手使用</div>
-        <div class="dl-btn">前往下载</div>
-      </a>
-
     </div>
   </section>
 
@@ -246,7 +230,7 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 </div>
 
 <script>
-// --- 加载动画逻辑 ---
+// --- 加载动画 ---
 let progress = 0;
 const fill = document.getElementById('progress-fill');
 const loader = document.getElementById('loader');
@@ -262,12 +246,12 @@ const loadInterval = setInterval(() => {
       mainContent.classList.add('show');
       setTimeout(() => loader.remove(), 500);
       fetchServerStatus();
-      startClock();
     }, 500);
   }
   fill.style.width = progress + '%';
 }, 200);
 
+// --- 复制 IP ---
 function copyIP() {
   const ip = document.getElementById('server-ip').innerText;
   navigator.clipboard.writeText(ip).then(() => {
@@ -277,20 +261,12 @@ function copyIP() {
   }).catch(err => alert('复制失败，请手动复制：' + ip));
 }
 
-// --- 网页时钟 ---
-function startClock() {
-  const timeEl = document.getElementById('srv-time');
-  setInterval(() => {
-    const now = new Date();
-    timeEl.innerText = now.toLocaleTimeString('zh-CN', { hour12: false });
-  }, 1000);
-}
-
-// --- 获取最全服务器状态 API ---
+// --- 查询全量数据 ---
 const SERVER_IP = "xingmo.92mc.top"; 
 
 async function fetchServerStatus() {
   const statusEl = document.getElementById('srv-status');
+  const protocolEl = document.getElementById('srv-protocol');
   const versionEl = document.getElementById('srv-version');
   const softwareEl = document.getElementById('srv-software');
   const playersEl = document.getElementById('srv-players');
@@ -306,24 +282,36 @@ async function fetchServerStatus() {
       statusEl.innerText = "● 在线";
       statusEl.className = "status-value val-online";
       
+      // 协议版本
+      protocolEl.innerText = data.version.protocol || "未知";
+      
+      // 游戏版本
       versionEl.innerText = data.version.name_clean || data.version.name || "未知版本";
 
-      // 智能识别核心 (由于 API 经常不返回核心，这里加个判断，如果是 Paper 会显示)
+      // 服务端核心
       if(data.software && data.software !== "") {
         softwareEl.innerText = data.software;
       } else if (data.version.name && data.version.name.toLowerCase().includes("paper")) {
-         softwareEl.innerText = "Paper";
+         softwareEl.innerText = "Paper (推断)";
       } else {
         softwareEl.innerText = "Vanilla / 未知";
       }
 
+      // 玩家数
       playersEl.innerText = `${data.players.online} / ${data.players.max}`;
       let percent = (data.players.online / data.players.max) * 100;
       barEl.style.width = `${percent}%`;
-      if(percent > 90) barEl.style.background = 'var(--mc-red)';
       
-      motdEl.innerText = data.motd.clean || "该服务器没有设置 MOTD";
+      // MOTD (使用原始 HTML 渲染)
+      // mcstatus.io 返回的 html.motd 包含了原版的彩色代码解析
+      if(data.motd && data.motd.html) {
+        // 直接注入 HTML 渲染颜色和换行
+        motdEl.innerHTML = data.motd.html; 
+      } else {
+        motdEl.innerText = data.motd.clean || "该服务器没有设置 MOTD";
+      }
 
+      // 图标
       if (data.icon) {
         iconEl.src = data.icon;
         iconEl.style.display = 'block';
@@ -332,6 +320,7 @@ async function fetchServerStatus() {
     } else {
       statusEl.innerText = "● 离线";
       statusEl.className = "status-value val-offline";
+      protocolEl.innerText = "--";
       versionEl.innerText = "--";
       softwareEl.innerText = "--";
       playersEl.innerText = "-- / --";
@@ -341,8 +330,9 @@ async function fetchServerStatus() {
   } catch (error) {
     statusEl.innerText = "● 查询失败";
     statusEl.className = "status-value val-offline";
+    protocolEl.innerText = "--";
     versionEl.innerText = "--";
-    softwareEl.innerText = "API 请求异常";
+    softwareEl.innerText = "API 接口请求异常";
     playersEl.innerText = "-- / --";
     motdEl.innerText = "无法获取数据，请刷新重试";
   }
