@@ -36,18 +36,13 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 }
 #loader.hide { opacity: 0; pointer-events: none; }
 
-.mc-block {
-  width: 80px; height: 80px; background-color: #3f3f3f; position: relative;
-  box-shadow: inset 0 0 0 4px #222;
+/* 🌟 替换为真实的像素草方块图片 */
+.mc-icon {
+  width: 80px; height: 80px;
+  image-rendering: pixelated; /* 强制浏览器使用像素化渲染，保证高清不模糊 */
   animation: bounce 1s infinite alternate ease-in-out;
-}
-.mc-block::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 25%;
-  background-color: #55aa00; border-bottom: 4px solid #2d5e00;
-}
-.mc-block::after {
-  content: ''; position: absolute; top: 25%; left: 25%; width: 20px; height: 20px;
-  background-color: #8b5a2b; box-shadow: inset -2px -2px 0 #5c3a1a;
+  border-radius: 12px; /* 给图片加一点圆角更好看 */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-15px); } }
 
@@ -186,7 +181,8 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 </head>
 <body><!-- 加载动画 -->
 <div id="loader">
-  <div class="mc-block"></div>
+  <!-- 🌟 换成了你提供的草方块图片地址 -->
+  <img src="https://gitee.com/xingmo2026/img/raw/master/mc_grass_block.png" class="mc-icon" alt="Loading...">
   <div class="load-text">正在加载世界...</div>
   <div class="progress-bar">
     <div class="progress-fill" id="progress-fill"></div>
@@ -356,27 +352,40 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 </div>
 
 <script>
-// --- 加载动画 ---
+// --- 加载动画逻辑 ---
 let progress = 0;
 const fill = document.getElementById('progress-fill');
 const loader = document.getElementById('loader');
 const mainContent = document.getElementById('main-content');
+let isLoaded = false; // 防止重复执行
+
+function finishLoading() {
+  if (isLoaded) return;
+  isLoaded = true;
+  loader.classList.add('hide');
+  mainContent.classList.add('show');
+  setTimeout(() => loader.remove(), 500);
+  fetchServerStatus();
+  startImageRefresh();
+}
 
 const loadInterval = setInterval(() => {
   progress += Math.random() * 15;
   if (progress >= 100) {
     progress = 100;
     clearInterval(loadInterval);
-    setTimeout(() => {
-      loader.classList.add('hide');
-      mainContent.classList.add('show');
-      setTimeout(() => loader.remove(), 500);
-      fetchServerStatus();
-      startImageRefresh();
-    }, 500);
+    setTimeout(finishLoading, 500);
   }
   fill.style.width = progress + '%';
 }, 200);
+
+// 🛡️ 安全兜底：如果因为网络卡住过了 3 秒还没加载完，强制进入网页
+setTimeout(() => {
+  if (!isLoaded) {
+    clearInterval(loadInterval);
+    finishLoading();
+  }
+}, 3000);
 
 // --- 30秒实时图片刷新 ---
 function startImageRefresh() {
@@ -387,9 +396,8 @@ function startImageRefresh() {
   }, 30000); 
 }
 
-// --- 🌟 一键拉起 QQ 加群逻辑 (已替换最新链接) ---
+// --- 一键拉起 QQ 加群 ---
 function joinQQGroup() {
-  // 你刚刚提供的新链接
   const qqUrl = "https://qun.qq.com/universal-share/share?ac=1&authKey=pwQ6F8blPJz6lnijOEhRQIvjHcmJrGEnn8lvYacLdZ4YMYa84qzJ9RspB%2F2V1TK9&busi_data=eyJncm91cENvZGUiOiIxMTI0NTQ1MDc1IiwidG9rZW4iOiJJSmJIYVlUcjE2RjczTVJ1LzhWcjZKdGJHc0FNZ051MjU1WHFqTmZkSEUxYkd4bEFQbEhxaXdsV3ZKNjJyTDNYIiwidWluIjoiMzg1MTMzNzY2NCJ9&data=X_YOCX6yDHdNHIi8XqzQBJpwUd8_LkRIlJdpIs0or5ZnjeOQml0lULew4KjRQiM3sPdKD2K29pgGohb4AkWbZg&svctype=4&tempid=h5_group_info";
   
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -397,7 +405,6 @@ function joinQQGroup() {
   if (isMobile) {
     window.open(qqUrl, '_blank');
   } else {
-    // 电脑端提示搜索新群号
     navigator.clipboard.writeText("1124545075").then(() => {
       alert("已为您复制群号：1124545075。\n请打开电脑版 QQ，搜索群号申请加入！");
     }).catch(err => {
