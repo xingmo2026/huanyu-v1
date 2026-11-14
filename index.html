@@ -108,12 +108,18 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .player-bar-bg { width: 100%; height: 8px; background: #333; border-radius: 4px; margin-top: 10px; overflow: hidden; }
 .player-bar-fill { height: 100%; background: var(--mc-gold); transition: width 0.5s; }
 
-/* 🌟 下载中心样式 */
+/* 更多信息网格 */
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+.info-card { background: #151515; padding: 20px; border-radius: 8px; border: 1px solid #222; }
+.info-card h3 { color: var(--mc-green); font-size: 18px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;}
+.info-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6;}
+.info-card ul { list-style: none; color: var(--text-muted); font-size: 14px; }
+.info-card ul li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;}
+.info-card ul li::before { content: "▸"; color: var(--mc-gold); }
+
+/* 下载中心 */
 .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-.dl-card {
-  background: #151515; border: 1px solid #222; border-radius: 6px; padding: 20px; text-align: center;
-  display: flex; flex-direction: column; align-items: center; transition: 0.3s; text-decoration: none;
-}
+.dl-card { background: #151515; border: 1px solid #222; border-radius: 6px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; transition: 0.3s; text-decoration: none; }
 .dl-card:hover { border-color: var(--mc-green); background: #1a1a1a; transform: translateY(-3px); }
 .dl-icon { font-size: 40px; margin-bottom: 10px; }
 .dl-name { color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
@@ -122,6 +128,18 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .dl-card:hover .dl-btn { background: var(--mc-green); color: #000; font-weight: bold;}
 
 footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); background: #0a0a0a; margin-top: auto;}
+.admin-btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 13px; text-decoration: none;}
+.admin-btn:hover { background: var(--mc-red); border-color: var(--mc-red); color: #fff;}
+
+/* 密码弹窗 */
+#pwd-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 999999; justify-content: center; align-items: center; backdrop-filter: blur(5px);}
+.pwd-box { background: var(--card-bg); border: 2px solid #444; border-radius: 8px; padding: 30px; width: 300px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);}
+.pwd-box h3 { color: #fff; margin-bottom: 15px; }
+.pwd-input { width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; margin-bottom: 15px; text-align: center; outline: none;}
+.pwd-input:focus { border-color: var(--mc-green); }
+.pwd-btn { background: var(--mc-green); color: #000; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 10px; transition: 0.2s;}
+.pwd-btn:hover { transform: scale(0.98); }
+.pwd-close { background: #444; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
 
 @media (max-width: 600px) {
   .hero h1 { font-size: 32px; }
@@ -159,41 +177,68 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </header>
 
-  <!-- 深度数据面板 -->
+  <!-- 数据面板 -->
   <section class="panel">
     <div class="panel-title">📊 服务器深度数据面板</div>
     <div class="status-grid">
-      
       <div class="status-item">
         <div class="status-label">运行状态</div>
         <div class="status-value" id="srv-status">请求中...</div>
       </div>
-
       <div class="status-item">
-        <div class="status-label">服务器协议版本号</div>
+        <div class="status-label">服务器协议版本</div>
         <div class="status-value" id="srv-protocol" style="color: #fff;">--</div>
       </div>
-
       <div class="status-item">
-        <div class="status-label">游戏版本 (Raw)</div>
+        <div class="status-label">游戏版本</div>
         <div class="status-value val-version" id="srv-version">--</div>
       </div>
-
       <div class="status-item">
         <div class="status-label">服务端核心</div>
         <div class="status-value val-software" id="srv-software">--</div>
       </div>
-
       <div class="status-item" style="grid-column: span 2;">
         <div class="status-label">在线玩家 (容量上限)</div>
         <div class="status-value val-players" id="srv-players">-- / --</div>
         <div class="player-bar-bg"><div class="player-bar-fill" id="srv-bar" style="width: 0%;"></div></div>
       </div>
-
       <div class="status-item" style="grid-column: 1 / -1;">
-        <div class="status-label">服务器公告 (MOTD - 原始格式)</div>
-        <!-- 这里会用 API 返回的 MOTD 原始 HTML 渲染 -->
+        <div class="status-label">服务器公告 (MOTD)</div>
         <div class="status-value val-motd" id="srv-motd">--</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 更多信息面板 -->
+  <section class="panel">
+    <div class="panel-title">💡 服务器资讯与规则</div>
+    <div class="info-grid">
+      
+      <!-- 特色介绍 -->
+      <div class="info-card">
+        <h3>✨ 核心特色</h3>
+        <p>幻域服务器主打原版纯净生存，支持 Java 与基岩版跨平台互通。拥有强大的防作弊系统与高性能服务端，拒绝卡顿，为你提供最原汁原味的 Minecraft 联机体验。</p>
+      </div>
+
+      <!-- 服务器规则 -->
+      <div class="info-card">
+        <h3>📜 游戏规则</h3>
+        <ul>
+          <li>严禁使用任何外挂、矿透或影响平衡的辅助模组。</li>
+          <li>禁止恶意破坏他人建筑、偷窃物品。</li>
+          <li>保持文明交流，禁止在公屏辱骂或刷屏。</li>
+        </ul>
+      </div>
+
+      <!-- 玩家交流 -->
+      <div class="info-card">
+        <h3>💬 玩家交流群</h3>
+        <p style="margin-bottom: 10px;">加入官方 QQ 群，获取最新活动资讯与开服提醒。</p>
+        <div class="ip-card" style="padding: 8px 15px; display: inline-flex;" onclick="copyQQ()">
+          <div class="ip-text" id="qq-number" style="font-size: 16px;">1124545075</div>
+          <div class="copy-btn" style="background: var(--mc-blue);">复制群号</div>
+          <div class="copy-tip" id="qq-copy-tip" style="background: var(--mc-blue);">已复制!</div>
+        </div>
       </div>
 
     </div>
@@ -226,7 +271,19 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 
   <footer>
     © 2026 幻域服务器. All Rights Reserved.
+    <br>
+    <button class="admin-btn" onclick="showAdminLogin()">⚙️ 游戏控制台管理入口</button>
   </footer>
+</div>
+
+<!-- 管理员密码弹窗 -->
+<div id="pwd-modal">
+  <div class="pwd-box">
+    <h3>管理员身份验证</h3>
+    <input type="password" class="pwd-input" id="admin-pwd" placeholder="请输入控制台密码">
+    <button class="pwd-btn" onclick="verifyAdmin()">进入控制台</button>
+    <button class="pwd-close" onclick="closeAdminLogin()">取消</button>
+  </div>
 </div>
 
 <script>
@@ -251,14 +308,43 @@ const loadInterval = setInterval(() => {
   fill.style.width = progress + '%';
 }, 200);
 
-// --- 复制 IP ---
+// --- 复制功能 ---
+function copyText(text, tipElement) {
+  navigator.clipboard.writeText(text).then(() => {
+    tipElement.classList.add('show');
+    setTimeout(() => tipElement.classList.remove('show'), 1500);
+  }).catch(err => alert('复制失败，请手动复制：' + text));
+}
+
 function copyIP() {
-  const ip = document.getElementById('server-ip').innerText;
-  navigator.clipboard.writeText(ip).then(() => {
-    const tip = document.getElementById('copy-tip');
-    tip.classList.add('show');
-    setTimeout(() => tip.classList.remove('show'), 1500);
-  }).catch(err => alert('复制失败，请手动复制：' + ip));
+  copyText(document.getElementById('server-ip').innerText, document.getElementById('copy-tip'));
+}
+
+function copyQQ() {
+  copyText(document.getElementById('qq-number').innerText, document.getElementById('qq-copy-tip'));
+}
+
+// --- 管理员控制台验证逻辑 ---
+function showAdminLogin() {
+  document.getElementById('pwd-modal').style.display = 'flex';
+  document.getElementById('admin-pwd').value = '';
+  document.getElementById('admin-pwd').focus();
+}
+
+function closeAdminLogin() {
+  document.getElementById('pwd-modal').style.display = 'none';
+}
+
+function verifyAdmin() {
+  const pwd = document.getElementById('admin-pwd').value;
+  if (pwd === 'huanyu') {
+    // 密码正确，携带管理员名称跳转
+    window.open('https://panel.yunmc.vip/', '_blank'); 
+    closeAdminLogin();
+  } else {
+    alert('密码错误，拒绝访问！');
+    document.getElementById('admin-pwd').value = '';
+  }
 }
 
 // --- 查询全量数据 ---
@@ -282,13 +368,9 @@ async function fetchServerStatus() {
       statusEl.innerText = "● 在线";
       statusEl.className = "status-value val-online";
       
-      // 协议版本
       protocolEl.innerText = data.version.protocol || "未知";
-      
-      // 游戏版本
       versionEl.innerText = data.version.name_clean || data.version.name || "未知版本";
 
-      // 服务端核心
       if(data.software && data.software !== "") {
         softwareEl.innerText = data.software;
       } else if (data.version.name && data.version.name.toLowerCase().includes("paper")) {
@@ -297,21 +379,16 @@ async function fetchServerStatus() {
         softwareEl.innerText = "Vanilla / 未知";
       }
 
-      // 玩家数
       playersEl.innerText = `${data.players.online} / ${data.players.max}`;
       let percent = (data.players.online / data.players.max) * 100;
       barEl.style.width = `${percent}%`;
       
-      // MOTD (使用原始 HTML 渲染)
-      // mcstatus.io 返回的 html.motd 包含了原版的彩色代码解析
       if(data.motd && data.motd.html) {
-        // 直接注入 HTML 渲染颜色和换行
         motdEl.innerHTML = data.motd.html; 
       } else {
         motdEl.innerText = data.motd.clean || "该服务器没有设置 MOTD";
       }
 
-      // 图标
       if (data.icon) {
         iconEl.src = data.icon;
         iconEl.style.display = 'block';
