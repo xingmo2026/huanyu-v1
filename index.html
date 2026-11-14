@@ -146,9 +146,22 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .dl-btn { background: #333; color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 13px; transition: 0.2s; }
 .dl-card:hover .dl-btn { background: var(--mc-green); color: #000; font-weight: bold;}
 
+/* 🌟 底部操作栏 (包含加入QQ群和控制台) */
 footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); background: #0a0a0a; margin-top: auto;}
+.footer-actions {
+  display: flex;
+  justify-content: center; /* 居中排列 */
+  gap: 15px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+.action-btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 20px; border-radius: 4px; font-size: 13px; cursor: pointer; transition: 0.3s; text-decoration: none; border: none;}
+.btn-qq { background: #12b7f5; color: #fff; border: 1px solid #12b7f5; font-weight: bold;}
+.btn-qq:hover { background: #0099d8; border-color: #0099d8; transform: scale(1.05);}
+.btn-admin { background: #333; color: #fff; border: 1px solid #555; }
+.btn-admin:hover { background: var(--mc-red); border-color: var(--mc-red); color: #fff; transform: scale(1.05);}
 
-/* 🌟 悬浮的投诉与反馈按钮 */
+/* 悬浮的投诉与反馈按钮 */
 .feedback-btn {
   position: fixed; bottom: 30px; right: 30px; z-index: 1000;
   background: var(--card-bg); border: 1px solid var(--border); color: #fff;
@@ -168,14 +181,12 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 .pwd-btn:hover { transform: scale(0.98); }
 .pwd-close { background: #444; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
 
-.admin-btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 13px; text-decoration: none;}
-.admin-btn:hover { background: var(--mc-red); border-color: var(--mc-red); color: #fff;}
-
 @media (max-width: 600px) {
   .hero h1 { font-size: 32px; }
   .ip-text { font-size: 16px; }
   .status-grid { grid-template-columns: 1fr; }
   .feedback-btn { bottom: 20px; right: 20px; padding: 10px 16px; font-size: 13px; }
+  .footer-actions { flex-direction: column; gap: 10px; }
 }
 </style>
 </head>
@@ -264,14 +275,11 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
           <li>保持文明交流，禁止在公屏辱骂或刷屏。</li>
         </ul>
       </div>
+      <!-- QQ群卡片 -->
       <div class="info-card">
         <h3>💬 玩家交流群</h3>
-        <p style="margin-bottom: 10px;">加入官方 QQ 群，获取最新活动资讯与开服提醒。</p>
-        <div class="ip-card" style="padding: 8px 15px; display: inline-flex;" onclick="copyQQ()">
-          <div class="ip-text" id="qq-number" style="font-size: 16px;">1124545075</div>
-          <div class="copy-btn" style="background: var(--mc-blue);">复制群号</div>
-          <div class="copy-tip" id="qq-copy-tip" style="background: var(--mc-blue);">已复制!</div>
-        </div>
+        <p style="margin-bottom: 10px;">点击下方按钮，直接打开手机 QQ 申请加入官方群（如果无法拉起请手动搜索群号：1103399514）。</p>
+        <button onclick="joinQQGroup()" class="dl-btn" style="background: var(--mc-blue); color: #000; border: none; cursor: pointer; width: 100%; padding: 10px; font-weight: bold; font-size: 14px; border-radius: 4px;">一键加入官方 QQ 群</button>
       </div>
     </div>
   </section>
@@ -280,77 +288,68 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
   <section class="panel">
     <div class="panel-title">📥 游戏与启动器下载</div>
     <div class="dl-grid">
-      <!-- MC官网 -->
       <a href="https://www.minecraft.net/zh-hans/download" target="_blank" class="dl-card">
         <div class="dl-icon">🌍</div>
         <div class="dl-name">Minecraft 官网</div>
         <div class="dl-desc">正版游戏官方下载入口</div>
         <div class="dl-btn">前往下载</div>
       </a>
-      
-      <!-- 电脑端启动器 -->
       <a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377" target="_blank" class="dl-card">
         <div class="dl-icon">📦</div>
         <div class="dl-name">PCL2 启动器</div>
         <div class="dl-desc">电脑端 · 国内最受欢迎</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
       <a href="https://hmcl.huangyuhui.net/download" target="_blank" class="dl-card">
         <div class="dl-icon">🛠️</div>
         <div class="dl-name">HMCL 启动器</div>
         <div class="dl-desc">电脑端 · 开源跨平台</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
       <a href="https://www.bakaxl.com/" target="_blank" class="dl-card">
         <div class="dl-icon">🎮</div>
         <div class="dl-name">BakaXL 启动器</div>
         <div class="dl-desc">电脑端 · UI精美，适合新手</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
-      <!-- 手机端启动器 -->
       <a href="https://github.com/FCL-Team/FoldCraftLauncher/releases" target="_blank" class="dl-card">
         <div class="dl-icon">📱</div>
         <div class="dl-name">FCL 启动器</div>
         <div class="dl-desc">手机端 · 专为安卓优化</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
       <a href="https://github.com/PojavLauncherTeam/PojavLauncher/releases" target="_blank" class="dl-card">
         <div class="dl-icon">🤖</div>
         <div class="dl-name">PojavLauncher</div>
         <div class="dl-desc">手机端 · 经典 Java 模拟器</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
-      <!-- 整合包平台 -->
       <a href="https://modrinth.com/app" target="_blank" class="dl-card">
         <div class="dl-icon">✨</div>
         <div class="dl-name">Modrinth App</div>
         <div class="dl-desc">跨平台 · 全球爆火的开源启动器</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
       <a href="https://www.curseforge.com/download/app" target="_blank" class="dl-card">
         <div class="dl-icon">🔥</div>
         <div class="dl-name">CurseForge</div>
         <div class="dl-desc">跨平台 · 海量整合包与模组</div>
         <div class="dl-btn">前往下载</div>
       </a>
-
     </div>
   </section>
 
+  <!-- 🌟 底部版权与操作区 -->
   <footer>
     © 2026 幻域服务器. All Rights Reserved.
-    <br>
-    <button class="admin-btn" onclick="showAdminLogin()">⚙️ 游戏控制台管理入口</button>
+    <div class="footer-actions">
+      <button class="action-btn btn-qq" onclick="joinQQGroup()">🐧 加入官方 QQ 群</button>
+      <button class="action-btn btn-admin" onclick="showAdminLogin()">⚙️ 游戏控制台管理入口</button>
+    </div>
   </footer>
 </div>
 
-<!-- 🌟 悬浮投诉按钮 (位于右下角) -->
+<!-- 悬浮投诉按钮 -->
 <button class="feedback-btn" onclick="submitFeedback()">
   ✉️ 投诉与反馈
 </button>
@@ -382,50 +381,57 @@ const loadInterval = setInterval(() => {
       mainContent.classList.add('show');
       setTimeout(() => loader.remove(), 500);
       fetchServerStatus();
-      startImageRefresh(); // 启动图片定时刷新
+      startImageRefresh();
     }, 500);
   }
   fill.style.width = progress + '%';
 }, 200);
 
-// --- 30秒实时图片刷新逻辑 ---
+// --- 30秒实时图片刷新 ---
 function startImageRefresh() {
   const imgElement = document.getElementById('motd-dynamic-img');
   const baseUrl = "https://motd.txssb.cn/api/app_img?ip=hmfree.tooo.top&port=20063&dark=true&lang=zh-CN";
-  
   setInterval(() => {
-    // 追加时间戳，强制浏览器重新拉取图片
     imgElement.src = baseUrl + "&t=" + new Date().getTime();
-  }, 30000); // 30000毫秒 = 30秒
+  }, 30000); 
 }
 
-// --- 🌟 投诉邮件一键唤起 ---
+// --- 🌟 一键拉起 QQ 加群逻辑 ---
+function joinQQGroup() {
+  const qqUrl = "https://qun.qq.com/universal-share/share?ac=1&authKey=ZEBg%2BEoGlFcZ2fezbWdPRcenwy%2FD1BkdCcqnMPnA%2B%2FE004RQ8P1VXhw5a18iOkrz&busi_data=eyJncm91cENvZGUiOiIxMTAzMzk5NTE0IiwidG9rZW4iOiJ3K3hxU3dOTFZWNmtTNXg4Si9JQ3lZMGY4N3VVdDlmb1NtMjZDK0J4SFlnbUNmWXVPSld2V1V4a1R2UGpLbGFSIiwidWluIjoiMjM1MTA3ODc3NyJ9&data=gaSCBho8R8CfTgvRSFHDVi9G7yCbh3-zfAuoIrk8vVGiXehx9UWJQWnsV8mevX6S4RdZ0yfQr7s--JvJ9d50ViW768SrmflprFsosXuvJhQ&svctype=5&tempid=h5_group_info";
+  
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    window.open(qqUrl, '_blank');
+  } else {
+    navigator.clipboard.writeText("1103399514").then(() => {
+      alert("已为您复制群号：1103399514。\n请打开电脑版 QQ，搜索群号申请加入！");
+    }).catch(err => {
+      alert("群号：1103399514。\n请手动在 QQ 搜索该群号加入！");
+    });
+  }
+}
+
+// --- 投诉邮件一键唤起 ---
 function submitFeedback() {
   const email = "2736656336@qq.com";
   const subject = encodeURIComponent("【幻域服务器】投诉与反馈");
   const body = encodeURIComponent("请在此处描述您遇到的问题或投诉内容：\n\n\n\n—— 来自幻域服务器官网");
-  
-  // 唤起默认邮箱客户端
   window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
-// --- 复制功能 ---
-function copyText(text, tipElement) {
-  navigator.clipboard.writeText(text).then(() => {
-    tipElement.classList.add('show');
-    setTimeout(() => tipElement.classList.remove('show'), 1500);
-  }).catch(err => alert('复制失败，请手动复制：' + text));
-}
-
+// --- 复制 IP ---
 function copyIP() {
-  copyText(document.getElementById('server-ip').innerText, document.getElementById('copy-tip'));
+  const ip = document.getElementById('server-ip').innerText;
+  navigator.clipboard.writeText(ip).then(() => {
+    const tip = document.getElementById('copy-tip');
+    tip.classList.add('show');
+    setTimeout(() => tip.classList.remove('show'), 1500);
+  }).catch(err => alert('复制失败，请手动复制：' + ip));
 }
 
-function copyQQ() {
-  copyText(document.getElementById('qq-number').innerText, document.getElementById('qq-copy-tip'));
-}
-
-// --- 管理员控制台验证逻辑 ---
+// --- 管理员控制台验证 ---
 function showAdminLogin() {
   document.getElementById('pwd-modal').style.display = 'flex';
   document.getElementById('admin-pwd').value = '';
