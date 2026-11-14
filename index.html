@@ -92,7 +92,7 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 }
 .panel-title { font-size: 22px; color: #fff; margin-bottom: 20px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 15px;}
 
-/* 🌟 新增：图片 MOTD 实时面板样式 */
+/* 🌟 动态图片卡片 (30秒刷新) */
 .motd-img-container {
   text-align: center;
   margin: 0 auto 20px auto;
@@ -142,13 +142,21 @@ body { background-color: var(--bg); color: var(--text); line-height: 1.6; overfl
 .dl-card:hover { border-color: var(--mc-green); background: #1a1a1a; transform: translateY(-3px); }
 .dl-icon { font-size: 40px; margin-bottom: 10px; }
 .dl-name { color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
-.dl-desc { color: var(--text-muted); font-size: 12px; margin-bottom: 15px; line-height: 1.4;}
+.dl-desc { color: var(--text-muted); font-size: 12px; margin-bottom: 15px; line-height: 1.4; text-align: center;}
 .dl-btn { background: #333; color: #fff; padding: 6px 16px; border-radius: 4px; font-size: 13px; transition: 0.2s; }
 .dl-card:hover .dl-btn { background: var(--mc-green); color: #000; font-weight: bold;}
 
 footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); background: #0a0a0a; margin-top: auto;}
-.admin-btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 13px; text-decoration: none;}
-.admin-btn:hover { background: var(--mc-red); border-color: var(--mc-red); color: #fff;}
+
+/* 🌟 悬浮的投诉与反馈按钮 */
+.feedback-btn {
+  position: fixed; bottom: 30px; right: 30px; z-index: 1000;
+  background: var(--card-bg); border: 1px solid var(--border); color: #fff;
+  padding: 12px 20px; border-radius: 50px; font-size: 14px; font-weight: bold;
+  cursor: pointer; display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6); transition: 0.3s;
+}
+.feedback-btn:hover { background: #333; transform: scale(1.05); border-color: var(--mc-gold); }
 
 /* 密码弹窗 */
 #pwd-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 999999; justify-content: center; align-items: center; backdrop-filter: blur(5px);}
@@ -160,10 +168,14 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
 .pwd-btn:hover { transform: scale(0.98); }
 .pwd-close { background: #444; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; }
 
+.admin-btn { display: inline-block; margin-top: 15px; padding: 8px 20px; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 13px; text-decoration: none;}
+.admin-btn:hover { background: var(--mc-red); border-color: var(--mc-red); color: #fff;}
+
 @media (max-width: 600px) {
   .hero h1 { font-size: 32px; }
   .ip-text { font-size: 16px; }
   .status-grid { grid-template-columns: 1fr; }
+  .feedback-btn { bottom: 20px; right: 20px; padding: 10px 16px; font-size: 13px; }
 }
 </style>
 </head>
@@ -196,11 +208,10 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </header>
 
-  <!-- 🌟 新增：实时动态图片展示区 -->
+  <!-- 动态图片卡片 -->
   <section class="panel" style="margin-bottom: 0;">
-    <div class="panel-title">🖼️ 实时服务器卡片</div>
+    <div class="panel-title">🖼️ 实时服务器卡片 (30秒刷新)</div>
     <div class="motd-img-container">
-      <!-- 这里就是那个 API 图片，每次刷新页面或定时器触发时会更新后面的随机数 -->
       <img id="motd-dynamic-img" src="https://motd.txssb.cn/api/app_img?ip=hmfree.tooo.top&port=20063&dark=true&lang=zh-CN" alt="服务器实时状态">
     </div>
   </section>
@@ -265,28 +276,70 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     </div>
   </section>
 
-  <!-- 下载中心 -->
+  <!-- 下载中心 (手机+电脑) -->
   <section class="panel">
     <div class="panel-title">📥 游戏与启动器下载</div>
     <div class="dl-grid">
+      <!-- MC官网 -->
       <a href="https://www.minecraft.net/zh-hans/download" target="_blank" class="dl-card">
         <div class="dl-icon">🌍</div>
         <div class="dl-name">Minecraft 官网</div>
         <div class="dl-desc">正版游戏官方下载入口</div>
         <div class="dl-btn">前往下载</div>
       </a>
+      
+      <!-- 电脑端启动器 -->
       <a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377" target="_blank" class="dl-card">
         <div class="dl-icon">📦</div>
         <div class="dl-name">PCL2 启动器</div>
-        <div class="dl-desc">国内最受欢迎的启动器</div>
+        <div class="dl-desc">电脑端 · 国内最受欢迎</div>
         <div class="dl-btn">前往下载</div>
       </a>
+
       <a href="https://hmcl.huangyuhui.net/download" target="_blank" class="dl-card">
         <div class="dl-icon">🛠️</div>
         <div class="dl-name">HMCL 启动器</div>
-        <div class="dl-desc">开源跨平台，支持多版本管理</div>
+        <div class="dl-desc">电脑端 · 开源跨平台</div>
         <div class="dl-btn">前往下载</div>
       </a>
+
+      <a href="https://www.bakaxl.com/" target="_blank" class="dl-card">
+        <div class="dl-icon">🎮</div>
+        <div class="dl-name">BakaXL 启动器</div>
+        <div class="dl-desc">电脑端 · UI精美，适合新手</div>
+        <div class="dl-btn">前往下载</div>
+      </a>
+
+      <!-- 手机端启动器 -->
+      <a href="https://github.com/FCL-Team/FoldCraftLauncher/releases" target="_blank" class="dl-card">
+        <div class="dl-icon">📱</div>
+        <div class="dl-name">FCL 启动器</div>
+        <div class="dl-desc">手机端 · 专为安卓优化</div>
+        <div class="dl-btn">前往下载</div>
+      </a>
+
+      <a href="https://github.com/PojavLauncherTeam/PojavLauncher/releases" target="_blank" class="dl-card">
+        <div class="dl-icon">🤖</div>
+        <div class="dl-name">PojavLauncher</div>
+        <div class="dl-desc">手机端 · 经典 Java 模拟器</div>
+        <div class="dl-btn">前往下载</div>
+      </a>
+
+      <!-- 整合包平台 -->
+      <a href="https://modrinth.com/app" target="_blank" class="dl-card">
+        <div class="dl-icon">✨</div>
+        <div class="dl-name">Modrinth App</div>
+        <div class="dl-desc">跨平台 · 全球爆火的开源启动器</div>
+        <div class="dl-btn">前往下载</div>
+      </a>
+
+      <a href="https://www.curseforge.com/download/app" target="_blank" class="dl-card">
+        <div class="dl-icon">🔥</div>
+        <div class="dl-name">CurseForge</div>
+        <div class="dl-desc">跨平台 · 海量整合包与模组</div>
+        <div class="dl-btn">前往下载</div>
+      </a>
+
     </div>
   </section>
 
@@ -296,6 +349,11 @@ footer { text-align: center; padding: 20px; color: var(--text-muted); font-size:
     <button class="admin-btn" onclick="showAdminLogin()">⚙️ 游戏控制台管理入口</button>
   </footer>
 </div>
+
+<!-- 🌟 悬浮投诉按钮 (位于右下角) -->
+<button class="feedback-btn" onclick="submitFeedback()">
+  ✉️ 投诉与反馈
+</button>
 
 <!-- 管理员密码弹窗 -->
 <div id="pwd-modal">
@@ -324,21 +382,31 @@ const loadInterval = setInterval(() => {
       mainContent.classList.add('show');
       setTimeout(() => loader.remove(), 500);
       fetchServerStatus();
-      startImageRefresh(); // 启动图片实时刷新
+      startImageRefresh(); // 启动图片定时刷新
     }, 500);
   }
   fill.style.width = progress + '%';
 }, 200);
 
-// --- 实时图片刷新逻辑 ---
+// --- 30秒实时图片刷新逻辑 ---
 function startImageRefresh() {
   const imgElement = document.getElementById('motd-dynamic-img');
-  // 30秒 (30000毫秒) 刷新一次
+  const baseUrl = "https://motd.txssb.cn/api/app_img?ip=hmfree.tooo.top&port=20063&dark=true&lang=zh-CN";
+  
   setInterval(() => {
-    // 在 URL 后面加个时间戳，强制浏览器重新请求，防止缓存
-    const baseUrl = "https://motd.txssb.cn/api/app_img?ip=hmfree.tooo.top&port=20063&dark=true&lang=zh-CN";
+    // 追加时间戳，强制浏览器重新拉取图片
     imgElement.src = baseUrl + "&t=" + new Date().getTime();
-  }, 30000); 
+  }, 30000); // 30000毫秒 = 30秒
+}
+
+// --- 🌟 投诉邮件一键唤起 ---
+function submitFeedback() {
+  const email = "2736656336@qq.com";
+  const subject = encodeURIComponent("【幻域服务器】投诉与反馈");
+  const body = encodeURIComponent("请在此处描述您遇到的问题或投诉内容：\n\n\n\n—— 来自幻域服务器官网");
+  
+  // 唤起默认邮箱客户端
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
 // --- 复制功能 ---
